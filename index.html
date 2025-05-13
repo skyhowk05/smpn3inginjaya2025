@@ -2,112 +2,168 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Pengumuman Kelulusan SMP N 3 INGIN JAYA</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pengumuman Kelulusan - SMP N 3 INGIN JAYA</title>
     <style>
-        body {{
-            background-color: #2196F3;
+        body {
+            margin: 0;
+            font-family: calibri, sans-serif;
+            background-color: #2196F3; /* biru cerah */
             color: white;
             text-align: center;
-            font-family: Arial, sans-serif;
-        }}
-        .logo img {{
-            max-width: 120px;
-            margin-top: 20px;
-        }}
-        .countdown {{
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        img.logo {
+            width: 120px;
+            margin: 20px auto;
+        }
+        h1 {
+            font-size: 28px;
+            margin-top: 10px;
+        }
+        .countdown, .form-nisn {
+            background-color: rgba(255, 255, 255, 0.75);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 30px;
+        }
+        .countdown span {
             font-size: 24px;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: #1976D2;
-            width: 80%;
-            border-radius: 10px;
-        }}
-        .form-container {{
+            margin: 0 10px;
+            display: inline-block;
+        }
+        .form-nisn {
             display: none;
-            background-color: #BBDEFB;
-            color: #000;
-            padding: 20px;
-            margin: 20px auto;
-            border-radius: 10px;
+        }
+        input[type="text"], input[type="number"] {
+            padding: 10px;
+            font-size: 16px;
             width: 80%;
-        }}
-        .footer {{
-            margin-top: 40px;
+            max-width: 300px;
+            margin-bottom: 15px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #0D47A1;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .hasil {
+            margin-top: 20px;
+        }
+        .catatan {
+            margin-top: 30px;
+            background-color: rgba(255,255,255,0.75);
+            padding: 15px;
+            border-radius: 10px;
             font-size: 14px;
-        }}
+        }
+        footer {
+            margin-top: 50px;
+            font-size: 12px;
+            color: #ccc;
+        }
     </style>
 </head>
 <body>
-    <div class="logo">
-        <img src="https://iili.io/38xMnwB.png" alt="Logo Sekolah">
+
+    <div class="container">
+        <!-- Logo -->
+        <img src="https://iili.io/38xMnwB.png" alt="Logo Sekolah" class="logo">
+
+        <!-- Judul -->
+        <h1>Pengumuman Kelulusan Peserta Didik SMP N 3 INGIN JAYA<br>Tahun Ajaran 2024/2025</h1>
+
+        <!-- Countdown -->
+        <div id="countdown" class="countdown">
+            <p>Menuju Pengumuman:</p>
+            <span id="days">00</span> Hari
+            <span id="hours">00</span> Jam
+            <span id="minutes">00</span> Menit
+            <span id="seconds">00</span> Detik
+        </div>
+
+        <!-- Form NISN -->
+        <div id="formNISN" class="form-nisn">
+            <label for="nisn">Masukkan NISN Anda:</label><br>
+            <input type="text" id="nisn" placeholder="Contoh: 0091652162">
+            <br>
+            <button onclick="cariNISN()">Lihat Hasil Kelulusan</button>
+
+            <div class="hasil" id="hasilKelulusan"></div>
+        </div>
+
+        <!-- Catatan -->
+        <div class="catatan">
+            📄 <strong>Catatan Penting:</strong><br>
+            Bagi peserta didik yang membutuhkan Surat Keterangan Kelulusan, silakan menghadap ke Bagian Tata Usaha pada hari dan jam kerja.<br>
+            Harap menggunakan pakaian yang rapi dan sopan.<br>
+            Tidak diperkenankan menggunakan kaos oblong dan celana Levis.
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            © 2025 SMP N 3 INGIN JAYA<br>
+            Created by ANAND4
+        </footer>
     </div>
-    <h1>Pengumuman Kelulusan Peserta Didik<br>SMP N 3 INGIN JAYA<br>Tahun Ajaran 2024/2025</h1>
 
-    <div id="countdown" class="countdown"></div>
+    <script>
+        const dataSiswa = {
+            "0091652162": { nama: "ALFI ZIKRINA", kelas: "IX-1", status: "Lulus" },
+            "3104782749": { nama: "BAGUS RAMADHAN", kelas: "IX-1", status: "Lulus" },
+            "0098610591": { nama: "CUT NITA MAULIDA", kelas: "IX-1", status: "Lulus" },
+            // ... tambahkan semua data siswa lainnya di sini seperti di atas
+        };
 
-    <div id="form" class="form-container">
-        <label for="nisn">Masukkan NISN Anda:</label><br>
-        <input type="text" id="nisn" placeholder="Contoh: 0091652162"><br><br>
-        <button onclick="cekKelulusan()">Lihat Hasil Kelulusan</button>
-        <div id="hasil" style="margin-top:20px;"></div>
-        <div id="catatan" style="margin-top:20px;"></div>
-    </div>
+        const targetDate = new Date("May 13, 2025 16:00:00 GMT+0700").getTime();
 
-    <div class="footer">
-        © 2025 SMP N 3 INGIN JAYA<br>
-        Created by ANAND4
-    </div>
+        const countdown = document.getElementById("countdown");
+        const formNISN = document.getElementById("formNISN");
 
-<script>
-    const targetDate = new Date("May 13, 2025 17:00:00 GMT+0700").getTime();
+        const timer = setInterval(function () {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
 
-    const countdown = setInterval(function() {{
-        const now = new Date().getTime();
-        const distance = targetDate - now;
+            if (distance <= 0) {
+                clearInterval(timer);
+                countdown.style.display = "none";
+                formNISN.style.display = "block";
+            } else {
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                document.getElementById("days").textContent = days.toString().padStart(2, '0');
+                document.getElementById("hours").textContent = hours.toString().padStart(2, '0');
+                document.getElementById("minutes").textContent = minutes.toString().padStart(2, '0');
+                document.getElementById("seconds").textContent = seconds.toString().padStart(2, '0');
+            }
+        }, 1000);
 
-        if (distance < 0) {{
-            clearInterval(countdown);
-            document.getElementById("countdown").style.display = "none";
-            document.getElementById("form").style.display = "block";
-        }} else {{
-            document.getElementById("countdown").innerHTML =
-                "Waktu menuju pengumuman: " + days + " hari, " + hours + " jam, " + minutes + " menit, " + seconds + " detik";
-        }}
-    }}, 1000);
+        function cariNISN() {
+            const nisn = document.getElementById("nisn").value.trim();
+            const hasil = document.getElementById("hasilKelulusan");
 
-    const dataSiswa = {{
-        "0091652162": {{"nama": "ALFI ZIKRINA", "kelas": "IX-1", "status": "Lulus"}},
-        "3104782749": {{"nama": "BAGUS RAMADHAN", "kelas": "IX-1", "status": "Lulus"}},
-        "0098610591": {{"nama": "CUT NITA MAULIDA", "kelas": "IX-1", "status": "Lulus"}},
-        
-    }};
-
-    function cekKelulusan() {{
-        const nisn = document.getElementById("nisn").value;
-        const hasil = document.getElementById("hasil");
-        const catatan = document.getElementById("catatan");
-
-        if (dataSiswa[nisn]) {{
-            hasil.innerHTML = "<strong>Nama:</strong> " + dataSiswa[nisn].nama + "<br>" +
-                              "<strong>Kelas:</strong> " + dataSiswa[nisn].kelas + "<br>" +
-                              "<strong>Keterangan:</strong> " + dataSiswa[nisn].status;
-            catatan.innerHTML = `
-                📄 <strong>Catatan Penting:</strong><br>
-                Bagi peserta didik yang membutuhkan Surat Keterangan Kelulusan, silakan menghadap ke Bagian Tata Usaha pada hari dan jam kerja.<br>
-                Harap menggunakan pakaian yang rapi dan sopan.<br>
-                Tidak diperkenankan menggunakan kaos oblong dan celana Levis.
-            `;
-        }} else {{
-            hasil.innerHTML = "Data tidak ditemukan. Periksa kembali NISN Anda.";
-            catatan.innerHTML = "";
-        }}
-    }}
-</script>
-
+            if (dataSiswa[nisn]) {
+                const siswa = dataSiswa[nisn];
+                hasil.innerHTML = `
+                    <p><strong>Nama:</strong> ${siswa.nama}</p>
+                    <p><strong>Kelas:</strong> ${siswa.kelas}</p>
+                    <p><strong>Keterangan:</strong> ${siswa.status}</p>
+                `;
+            } else {
+                hasil.innerHTML = `<p style="color:yellow;">Data tidak ditemukan. Periksa kembali NISN Anda.</p>`;
+            }
+        }
+    </script>
 </body>
 </html>
