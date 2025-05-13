@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Pengumuman Kelulusan SMP N 3 INGIN JAYA</title>
+    <style>
+        body {{
+            background-color: #2196F3;
+            color: white;
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }}
+        .logo img {{
+            max-width: 120px;
+            margin-top: 20px;
+        }}
+        .countdown {{
+            font-size: 24px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #1976D2;
+            width: 80%;
+            border-radius: 10px;
+        }}
+        .form-container {{
+            display: none;
+            background-color: #BBDEFB;
+            color: #000;
+            padding: 20px;
+            margin: 20px auto;
+            border-radius: 10px;
+            width: 80%;
+        }}
+        .footer {{
+            margin-top: 40px;
+            font-size: 14px;
+        }}
+    </style>
+</head>
+<body>
+    <div class="logo">
+        <img src="https://iili.io/38xMnwB.png" alt="Logo Sekolah">
+    </div>
+    <h1>Pengumuman Kelulusan Peserta Didik<br>SMP N 3 INGIN JAYA<br>Tahun Ajaran 2024/2025</h1>
+
+    <div id="countdown" class="countdown"></div>
+
+    <div id="form" class="form-container">
+        <label for="nisn">Masukkan NISN Anda:</label><br>
+        <input type="text" id="nisn" placeholder="Contoh: 0091652162"><br><br>
+        <button onclick="cekKelulusan()">Lihat Hasil Kelulusan</button>
+        <div id="hasil" style="margin-top:20px;"></div>
+        <div id="catatan" style="margin-top:20px;"></div>
+    </div>
+
+    <div class="footer">
+        © 2025 SMP N 3 INGIN JAYA<br>
+        Created by ANAND4
+    </div>
+
+<script>
+    const targetDate = new Date("May 13, 2025 16:00:00 GMT+0700").getTime();
+
+    const countdown = setInterval(function() {{
+        const now = new Date().getTime();
+        const distance = targetDate - now;
+
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        if (distance < 0) {{
+            clearInterval(countdown);
+            document.getElementById("countdown").style.display = "none";
+            document.getElementById("form").style.display = "block";
+        }} else {{
+            document.getElementById("countdown").innerHTML =
+                "Waktu menuju pengumuman: " + days + " hari, " + hours + " jam, " + minutes + " menit, " + seconds + " detik";
+        }}
+    }}, 1000);
+
+    const dataSiswa = {{
+        "0091652162": {{"nama": "ALFI ZIKRINA", "kelas": "IX-1", "status": "Lulus"}},
+        "3104782749": {{"nama": "BAGUS RAMADHAN", "kelas": "IX-1", "status": "Lulus"}},
+        "0098610591": {{"nama": "CUT NITA MAULIDA", "kelas": "IX-1", "status": "Lulus"}},
+        // Tambahkan data lainnya di sini
+    }};
+
+    function cekKelulusan() {{
+        const nisn = document.getElementById("nisn").value;
+        const hasil = document.getElementById("hasil");
+        const catatan = document.getElementById("catatan");
+
+        if (dataSiswa[nisn]) {{
+            hasil.innerHTML = "<strong>Nama:</strong> " + dataSiswa[nisn].nama + "<br>" +
+                              "<strong>Kelas:</strong> " + dataSiswa[nisn].kelas + "<br>" +
+                              "<strong>Keterangan:</strong> " + dataSiswa[nisn].status;
+            catatan.innerHTML = `
+                📄 <strong>Catatan Penting:</strong><br>
+                Bagi peserta didik yang membutuhkan Surat Keterangan Kelulusan, silakan menghadap ke Bagian Tata Usaha pada hari dan jam kerja.<br>
+                Harap menggunakan pakaian yang rapi dan sopan.<br>
+                Tidak diperkenankan menggunakan kaos oblong dan celana Levis.
+            `;
+        }} else {{
+            hasil.innerHTML = "Data tidak ditemukan. Periksa kembali NISN Anda.";
+            catatan.innerHTML = "";
+        }}
+    }}
+</script>
+
+</body>
+</html>
